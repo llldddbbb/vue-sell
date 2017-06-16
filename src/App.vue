@@ -1,27 +1,27 @@
 <template>
   <div id="app">
-    <hello></hello>
+    <v-header></v-header>
+    <div class="tab">
+      i am tab
+
+    </div>
+    <div class="content">
+      i am content
+
+    </div>
   </div>
 </template>
 
 <script>
-  import Hello from './components/Hello'
+  import header from './components/header/header.vue';
 
-  export default {
-    name: 'app',
+  export default{
     components: {
-      Hello
+      'v-header': header
     }
-  }
+  };
 </script>
 
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
+
 </style>
