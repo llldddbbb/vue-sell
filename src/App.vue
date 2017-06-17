@@ -2,13 +2,18 @@
   <div id="app">
     <v-header></v-header>
     <div class="tab">
-      i am tab
-
+      <div class="tab-item">
+        <router-link to="/goods">商品</router-link>
+      </div>
+      <div class="tab-item">
+        <a>评论</a>
+      </div>
+      <div class="tab-item">
+        <a >商家</a>
+      </div>
     </div>
-    <div class="content">
-      i am content
-
-    </div>
+    <!--路由外链-->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -22,6 +27,14 @@
   };
 </script>
 
-<style>
-
+<style lang="stylus" rel="stylesheet/stylus">
+  #app
+    .tab
+      display: flex
+      width: 100%
+      height: 40px
+      line-height: 40px
+      .tab-item
+        flex: 1
+        text-align: center
 </style>
