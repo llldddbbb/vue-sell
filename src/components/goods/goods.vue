@@ -22,12 +22,10 @@
                 <h2 class="name">{{food.name}}</h2>
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
-                  <span>月售{{food.sellCount}}份</span>
-                  <span>好评率{{food.rating}}%</span>
+                  <span class="count">月售{{food.sellCount}}份</span><span>好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥{{food.price}}</span>
-                  <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                  <span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
               </div>
             </li>
@@ -156,8 +154,9 @@
             color: rgb(147, 153, 159)
           .desc
             margin-bottom: 8px
+            line-height: 12px
           .extra
-            &.count
+            .count
               margin-right: 12px
           .price
             font-weight: 700
@@ -168,6 +167,10 @@
               color: rgb(240, 20, 20)
             .old
               text-decoration: line-through
+              font-size: 10px
+              color: rgb(147,153,159)
+              font-weight: 700
+              line-height: 24px
 
 
 </style>
