@@ -35,12 +35,14 @@
         </li>
       </ul>
     </div>
+    <shopcart></shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import axios from 'axios';
   import BScroll from 'better-scroll';
+  import shopcart from '../../components/shopcart/shopcat.vue';
 
   export default {
     prop: {
@@ -101,6 +103,9 @@
       selectMenu(index, event) {
         this.foodsScroll.scrollTo(0, -this.listHeight[index], 300);
       }
+    },
+    components: {
+        shopcart
     }
   };
 </script>
