@@ -49,6 +49,7 @@
   import cartcontrol from '../cartcontrol/cartcontrol.vue';
   import Vue from 'vue';
 
+  /* eslint-disable no-unused-vars */
   const eventHub = new Vue();
   export default {
     props: {
