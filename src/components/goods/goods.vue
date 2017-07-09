@@ -35,17 +35,17 @@
         </li>
       </ul>
     </div>
-    <shopcart></shopcart>
+    <shopcart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import axios from 'axios';
   import BScroll from 'better-scroll';
-  import shopcart from '../../components/shopcart/shopcat.vue';
+  import shopcart from '../shopcart/shopcart.vue';
 
   export default {
-    prop: {
+    props: {
       seller: {
         type: Object
       }
@@ -105,7 +105,7 @@
       }
     },
     components: {
-        shopcart
+      shopcart
     }
   };
 </script>
