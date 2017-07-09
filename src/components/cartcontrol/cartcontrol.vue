@@ -27,10 +27,11 @@
         }
         if (!this.food.count) {
 //        初始化
-          Vue.set(this.food, 'count', 1);
-        } else {
-          this.food.count++;
+          Vue.set(this.food, 'count', 0);
         }
+        this.food.count++;
+//      不同组件之间进行通信
+        this.$root.eventHub.$emit('cart.add', event.target);
       },
       decreaseCart(event) {
         if (!event._constructed) {

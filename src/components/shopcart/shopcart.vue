@@ -17,6 +17,13 @@
         </div>
       </div>
     </div>
+    <div class="ball-container">
+      <transition name="drop" v-for="(ball,index) in balls">
+        <div class="ball" v-show="ball.show">
+          <div class="inner"></div>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -37,6 +44,24 @@
         type: Number,
         default: 0
       }
+    },
+    data() {
+      return {
+        balls: [
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          }
+        ]
+      };
+    },
+    created() {
+      this.$root.eventHub.$on('cart.add', this.drop);
     },
     computed: {
       totalPrice() {
@@ -69,6 +94,11 @@
         } else {
           return 'enough';
         }
+      }
+    },
+    methods: {
+      drop(el) {
+        console.log(el);
       }
     }
   };
@@ -160,4 +190,18 @@
           &.enough
             background: #00b43c
             color: #fff
+    .ball-container
+      .ball
+        position: fixed
+        z-index: 200
+        left: 32px
+        bottom: 22px
+        &.drop-transition
+          transition: all 0.4s
+          .inner
+            width: 16px
+            height: 16px
+            border-radius: 50%
+            background: rgb(0, 160, 220)
+            transition: all 0.4s
 </style>

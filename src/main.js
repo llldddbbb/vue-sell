@@ -15,7 +15,10 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  data: {
+    eventHub: new Vue()
+  }
 });
 /* 默认跳转到goods */
 router.push('/goods');

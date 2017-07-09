@@ -47,7 +47,9 @@
   import BScroll from 'better-scroll';
   import shopcart from '../shopcart/shopcart.vue';
   import cartcontrol from '../cartcontrol/cartcontrol.vue';
+  import Vue from 'vue';
 
+  const eventHub = new Vue();
   export default {
     props: {
       seller: {
