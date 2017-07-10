@@ -11,7 +11,7 @@
         <div class="price" :class="{'highlight': totalPrice>0}">￥{{totalPrice}}元</div>
         <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
-      <div class="content-right">
+      <div class="content-right" @click.stop.prevent="pay">
         <div class="pay" :class="payClass">
           {{payDesc}}
         </div>
@@ -26,10 +26,10 @@
       </transition>
     </div>
     <transition name="transHeight">
-      <div class="shopcart-list" v-show="listShow" >
+      <div class="shopcart-list" v-show="fold&&this.selectFoods.length">
         <div class="list-header">
           <h1 class="title">购物车</h1>
-          <span class="empty">清空</span>
+          <span class="empty" @click="empty">清空</span>
         </div>
         <div class="list-content" ref="foodlist">
           <ul>
@@ -45,6 +45,9 @@
           </ul>
         </div>
       </div>
+    </transition>
+    <transition name="fade-backdrop">
+      <div class="backdrop" v-show="fold&&this.selectFoods.length" @click="hideBackdrop"></div>
     </transition>
   </div>
 </template>
@@ -83,13 +86,20 @@
           }
         ],
         dropBall: [],
-        fold: true
+        fold: false
       };
     },
     created() {
       this.$root.eventHub.$on('cart.add', this.drop);
     },
     computed: {
+      showBackdrop() {
+        if (this.fold && this.totalPrice) {
+          return true;
+        }
+        this.fold = false;
+        return false;
+      },
       totalPrice() {
         let total = 0;
         this.selectFoods.forEach((food) => {
@@ -120,29 +130,12 @@
         } else {
           return 'enough';
         }
-      },
-      listShow() {
-        if (!this.totalCount) {
-          this.fold = true;
-          return false;
-        }
-        let show = !this.fold;
-        if (show) {
-          this.$nextTick(() => {
-            if (!this.scroll) {
-//            初始化BScroll
-              this.scroll = new BScroll(this.$refs.foodlist, {
-                click: true
-              });
-            } else {
-              this.scroll.refresh();
-            }
-          });
-        }
-        return show;
       }
     },
     methods: {
+      hideBackdrop() {
+        this.fold = false;
+      },
       drop(el) {
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i];
@@ -174,6 +167,7 @@
       enter(el) {
         /* eslint-disable no-unused-vars */
         let rf = el.offsetHeight;
+        this.fold = false;
         this.$nextTick(() => {
           el.style.webkitTransform = 'translate3d(0,0,0)';
           el.style.transform = 'translate3d(0,0,0)';
@@ -190,10 +184,33 @@
         }
       },
       toggleList() {
-        if (!this.totalCount) {
+        if (!this.selectFoods.length) {
           return;
         }
         this.fold = !this.fold;
+        if (this.fold) {
+          this.$nextTick(() => {
+            if (!this.scroll) {
+//            初始化BScroll
+              this.scroll = new BScroll(this.$refs.foodlist, {
+                click: true
+              });
+            } else {
+              this.scroll.refresh();
+            }
+          });
+        }
+      },
+      empty() {
+        this.selectFoods.forEach((food) => {
+          food.count = 0;
+        });
+      },
+      pay() {
+        if (this.totalPrice < this.minPrice) {
+          return;
+        }
+        alert(`支付${this.totalPrice}元`);
       }
     },
     components: {
@@ -336,25 +353,39 @@
         overflow: hidden
         background: #fff
         .food
-          position: relative
-          padding: 12px 0
-          box-sizing: border-box
-          border-1px(rgba(7, 17, 27, 0.1))
+          position relative
+          display flex
+          height 48px
+          margin 0 18px
+          border-bottom 1px solid rgba(7, 17, 27, 0.1)
           .name
-            line-height: 24px
-            font-size: 14px
-            color: rgb(7, 17, 27)
+            flex 1
+            font-size 14px
+            color rgb(7, 17, 27)
+            line-height 48px
+            font-weight 700
           .price
-            position: absolute
-            right: 90px
-            bottom: 12px
-            line-height: 24px
-            font-size: 14px
-            font-weight: 700
-            color: rgb(240, 20, 20)
+            font-size 14px
+            font-weight 700
+            color rgb(240, 20, 20)
+            padding 0 12px 0 18px
+            line-height 48px
           .cartcontrol-wrapper
-            position: absolute
-            right: 0
-            bottom: 6px;
+            font-size 14px
+            margin-top 6px
+
+    .backdrop
+      position fixed
+      top 0
+      right 0
+      width: 100%
+      height: 100%
+      z-index: -2
+      background rgba(7, 17, 27, 0.6)
+      backdrop-filter blur(10px)
+      &.fade-backdrop-enter-active, &.fade-backdrop-leave-active
+        transition opacity 0.5s
+      &.fade-backdrop-enter, &.fade-backdrop-leave-active
+        opacity 0
 
 </style>
