@@ -221,7 +221,6 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixin.styl"
-
   .shopcart
     position: fixed
     bottom: 0
@@ -348,7 +347,7 @@
           font-size: 12px
           color: rgb(0, 160, 220)
       .list-content
-        padding: 0, 18px
+        padding: 0 18px
         max-height: 217px
         overflow: hidden
         background: #fff

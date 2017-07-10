@@ -15,7 +15,7 @@
         <li v-for="item in goods" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item border-1px">
+            <li @click="selectFood(food,$event)" v-for="food in item.foods" class="food-item border-1px">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon">
               </div>
@@ -39,6 +39,7 @@
       </ul>
     </div>
     <shopcart :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+    <food :food="selectedFood" v-if="selectedFood" ref="food"></food>
   </div>
 </template>
 
@@ -47,6 +48,7 @@
   import BScroll from 'better-scroll';
   import shopcart from '../shopcart/shopcart.vue';
   import cartcontrol from '../cartcontrol/cartcontrol.vue';
+  import food from '../food/food.vue';
   import Vue from 'vue';
 
   /* eslint-disable no-unused-vars */
@@ -62,7 +64,7 @@
         goods: [],
         listHeight: [],
         foodsScrollY: 0,
-        selectedFood: ''
+        selectedFood: {}
       };
     },
     computed: {
@@ -123,11 +125,18 @@
       },
       selectMenu(index, event) {
         this.foodsScroll.scrollTo(0, -this.listHeight[index], 300);
+      },
+      selectFood(food, event) {
+        this.selectedFood = food;
+        this.$nextTick(() => {
+          this.$refs.food.show();
+        });
       }
     },
     components: {
       shopcart,
-      cartcontrol
+      cartcontrol,
+      food
     }
   };
 </script>
@@ -140,6 +149,7 @@
     top: 174px
     bottom: 46px
     overflow: hidden
+    width: 100%
     .menu-wrapper
       flex: 0 0 80px
       width: 80px
@@ -233,7 +243,6 @@
               color: rgb(147, 153, 159)
               font-weight: 700
               line-height: 24px
-
           .cartcontrol-wrapper
             position: absolute
             right: 0
