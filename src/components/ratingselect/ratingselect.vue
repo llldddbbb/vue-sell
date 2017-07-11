@@ -6,7 +6,7 @@
       <span @click="select(0,$event)" class="block positive" :class="{'active':selectType==0}">{{desc.positive}}<span
         class="count">{{positives.length}}</span></span>
       <span @click="select(1,$event)" class="block negative" :class="{'active':selectType==1}">{{desc.negative}}<span
-        class="count">{{negatives.length}}</span></span>
+        class="count">21</span></span>
     </div>
     <div @click="toggleContent" class="switch" :class="{'on': onlyContent}">
       <span class="icon-check_circle"></span>
@@ -52,14 +52,12 @@
           return;
         }
         this.selectType = type;
-        this.$root.eventHub.$emit('ratingtype.select', type);
       },
       toggleContent(event) {
         if (!event._constructed) {
           return;
         }
         this.onlyContent = !this.onlyContent;
-        this.$root.eventHub.$emit('onlycontent', this.onlyContent);
       }
     },
     computed: {
